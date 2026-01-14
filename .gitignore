@@ -1,0 +1,19 @@
+# Theos
+.theos/
+packages/
+obj/
+.deb
+
+# macOS
+.DS_Store
+
+# Xcode
+*.xcworkspace
+*.xcodeproj
+DerivedData/
+
+# Logs
+*.log
+
+# Temporary
+tmp/
