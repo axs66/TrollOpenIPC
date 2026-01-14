@@ -69,7 +69,6 @@
 ✔ 可换成：手势 / 设置项 / 菜单项
 
 ## 🔄 数据流（真实运行路径）
-```text
 [WeChat 内点击 Split 按钮]
 ↓
 SenderApp.Tweak.xm
