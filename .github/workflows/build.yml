@@ -1,16 +1,16 @@
 name: CI
 
-# 监控关键文件变化时触发工作流
 on:
   push:
     paths:
-      - '*.xm'  # 监控所有Logos钩子文件
-      - '*.m'  # 监控Objective-C源文件
-      - '*.mm'  # 监控Objective-C++源文件
-      - 'Makefile'  # 监控构建配置
-      - 'control'  # 监控包信息文件
+      - '**/*.xm'
+      - '**/*.m'
+      - '**/*.mm'
+      - '**/*.h'
+      - '**/Makefile'
+      - '**/control'
     branches:
-      - 'main'  # 仅在推送到 main 分支时触发
+      - 'main'
   workflow_dispatch:
 
 jobs:
@@ -29,11 +29,35 @@ jobs:
       - name: Clean previous packages
         run: rm -rf packages
 
-      - name: Build DEB (rootless + roothide)
+      - name: Build ReceiverSB (rootless)
         run: |
+          cd ReceiverSB
           make clean
           make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+
+      - name: Build SenderApp (rootless)
+        run: |
+          cd SenderApp
+          make clean
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+
+      - name: Build ReceiverSB (roothide)
+        run: |
+          cd ReceiverSB
+          make clean
           make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=roothide
+
+      - name: Build SenderApp (roothide)
+        run: |
+          cd SenderApp
+          make clean
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=roothide
+
+      - name: Collect packages
+        run: |
+          mkdir -p packages
+          cp ReceiverSB/packages/*.deb packages/ 2>/dev/null || true
+          cp SenderApp/packages/*.deb packages/ 2>/dev/null || true
 
       - name: List generated DEBs
         run: ls -lh ${{ github.workspace }}/packages
@@ -41,12 +65,12 @@ jobs:
       - name: Create GitHub Release
         run: |
           VERSION=$(date +v%Y%m%d%H%M)
-          gh release create $VERSION ${{ github.workspace }}/packages/*.deb --title "ReveFlex $VERSION" --notes "自动构建 .deb 安装包"
+          gh release create $VERSION ${{ github.workspace }}/packages/*.deb --title "TrollOpenIPC $VERSION" --notes "自动构建 .deb 安装包 (rootless + roothide)"
         env:
           GH_TOKEN: ${{ secrets.PAT }}
 
       - name: Upload DEB to workflow artifacts
         uses: actions/upload-artifact@v4.3.3
         with:
-          name: ReveFlex
+          name: TrollOpenIPC
           path: ${{ github.workspace }}/packages/*.deb
