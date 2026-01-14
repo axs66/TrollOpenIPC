@@ -169,7 +169,10 @@ static void EnsureFloatingButton(void) {
                 }
             }
         } else {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             keyWindow = [UIApplication sharedApplication].keyWindow;
+#pragma clang diagnostic pop
         }
         
         if (!keyWindow) return;
