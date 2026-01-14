@@ -1,0 +1,9 @@
+Package: com.axs.trollopenipc.receiver
+Name: TrollOpen IPC Receiver (SpringBoard)
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: Listen Darwin notifications and execute actions in SpringBoard.
+Maintainer: Axs
+Author: Axs
+Section: Tweaks
+Depends: mobilesubstrate
