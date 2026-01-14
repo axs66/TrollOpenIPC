@@ -20,50 +20,6 @@
 
 ---
 
-## 📦 项目结构
-
-```text
-TrollOpenIPC/
-├── README.md
-├── LICENSE
-├── .gitignore
-│
-├── common/                          # ⭐ IPC 核心公共模块
-│   ├── TOIPC.h                      # IPC 接口定义（通知名 / 队列 / ACK）
-│   └── TOIPC.m                      # IPC 实现（plist + notify + queue）
-│
-├── ReceiverSB/                      # ⭐ 接收端（SpringBoard 执行层）
-│   ├── Makefile
-│   ├── control
-│   └── Tweak.xm
-│       ├─ 注册 Darwin 通知监听
-│       ├─ 读取 shared plist
-│       ├─ 处理 queue[] 中的命令
-│       ├─ 防抖 / 去重 / ACK 回写
-│       ├─ HandleInfo(info)
-│       ├─ HandleSplit(splitId)
-│       │   ├─ 支持 "A|B" 解析
-│       │   ├─ SBOpenAppWithBundleID()
-│       │   ├─ 延迟拉起第二个 App
-│       │   └─ 🔌 预留 Custom Split Layout Engine 对接点
-│       └─ 日志写入 /var/mobile/Library/Logs/TrollOpenIPC.log
-│
-├── SenderApp/                       # ⭐ 发送端（App 内触发）
-│   ├── Makefile
-│   ├── control
-│   └── Tweak.xm
-│       ├─ App 注入（示例：WeChat）
-│       ├─ 悬浮按钮 "Split"
-│       ├─ 点击后 Enqueue Split 命令
-│       └─ TOIPCEnqueueCommand(type=Split, payload)
-│
-└── docs/ (可选，未来扩展)
-    ├── architecture.md              # 架构说明（可选）
-    ├── demo.gif                     # Demo GIF（可选）
-    └── release-notes.md             # Release Notes（可选）
-
----
-
 ## 🧠 功能层级结构（你现在真正拥有的能力）
 ## 一、IPC 核心层（common/）
 
@@ -137,3 +93,48 @@ SBOpenAppWithBundleID(...)
 （预留）CallYourSplitLayoutEngine(...)
 ↓
 写回 ACK + notify TrollOpenResponse
+
+---
+
+## 📦 项目结构
+
+```text
+TrollOpenIPC/
+├── README.md
+├── LICENSE
+├── .gitignore
+│
+├── common/                          # ⭐ IPC 核心公共模块
+│   ├── TOIPC.h                      # IPC 接口定义（通知名 / 队列 / ACK）
+│   └── TOIPC.m                      # IPC 实现（plist + notify + queue）
+│
+├── ReceiverSB/                      # ⭐ 接收端（SpringBoard 执行层）
+│   ├── Makefile
+│   ├── control
+│   └── Tweak.xm
+│       ├─ 注册 Darwin 通知监听
+│       ├─ 读取 shared plist
+│       ├─ 处理 queue[] 中的命令
+│       ├─ 防抖 / 去重 / ACK 回写
+│       ├─ HandleInfo(info)
+│       ├─ HandleSplit(splitId)
+│       │   ├─ 支持 "A|B" 解析
+│       │   ├─ SBOpenAppWithBundleID()
+│       │   ├─ 延迟拉起第二个 App
+│       │   └─ 🔌 预留 Custom Split Layout Engine 对接点
+│       └─ 日志写入 /var/mobile/Library/Logs/TrollOpenIPC.log
+│
+├── SenderApp/                       # ⭐ 发送端（App 内触发）
+│   ├── Makefile
+│   ├── control
+│   └── Tweak.xm
+│       ├─ App 注入（示例：WeChat）
+│       ├─ 悬浮按钮 "Split"
+│       ├─ 点击后 Enqueue Split 命令
+│       └─ TOIPCEnqueueCommand(type=Split, payload)
+│
+└── docs/ (可选，未来扩展)
+    ├── architecture.md              # 架构说明（可选）
+    ├── demo.gif                     # Demo GIF（可选）
+    └── release-notes.md             # Release Notes（可选）
+
