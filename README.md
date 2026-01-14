@@ -109,32 +109,3 @@ TrollOpenIPC/
     ├── architecture.md              # 架构说明（可选）
     ├── demo.gif                     # Demo GIF（可选）
     └── release-notes.md             # Release Notes（可选）
-
-
-## 🔄 数据流（真实运行路径）
-
-[WeChat 内点击 Split 按钮]
-↓
-SenderApp.Tweak.xm
-↓
-TOIPCEnqueueCommand()
-↓
-写入 /var/mobile/TrollOpen/com.charlieleung.TrollOpen.plist
-↓
-notify_post("TrollOpenRequestSplitLayout")
-↓
-SpringBoard (ReceiverSB)
-↓
-Darwin Callback
-↓
-ProcessQueueAndAck()
-↓
-HandleSplit("com.tencent.xin|com.apple.mobilesafari")
-↓
-SBOpenAppWithBundleID(...)
-↓
-（预留）CallYourSplitLayoutEngine(...)
-↓
-写回 ACK + notify TrollOpenResponse
-
----
