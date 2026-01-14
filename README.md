@@ -62,6 +62,8 @@ TrollOpenIPC/
     ├── demo.gif                     # Demo GIF（可选）
     └── release-notes.md             # Release Notes（可选）
 
+text```
+
 ## 🧠 功能层级结构（你现在真正拥有的能力）
 ## 一、IPC 核心层（common/）
 
