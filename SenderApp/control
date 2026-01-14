@@ -1,9 +1,0 @@
-Package: com.axs.trollopenipc.sender
-Name: TrollOpen IPC Sender (App)
-Version: 1.0.0
-Architecture: iphoneos-arm64
-Description: Send Darwin notification and plist commands.
-Maintainer: Axs
-Author: Axs
-Section: Tweaks
-Depends: mobilesubstrate
